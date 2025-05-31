@@ -48,13 +48,15 @@ app.get('/api/ping', (req, res) => {
   res.json({ message: 'Server is awake!' });
 });
 
-// ✅ Fallback for non-API requests (optional, for SPA support)
+// ✅ Fallback for non-API requests (for SPA support)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build'))); // If React is built into /client
-  app.get('*', (req, res) => {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  // FIXED: Named wildcard route for Express 5 / path-to-regexp compatibility
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
