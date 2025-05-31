@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB URI (secure via .env in production)
-const MONGODB_URI = process.env.MONGODB_URI || "your-fallback-mongo-uri";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://hareeshragavan404:Hareesh948630@cluster0.yf5kjwd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Auto-retry MongoDB connection
 const connectWithRetry = () => {
