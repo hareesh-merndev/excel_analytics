@@ -1,61 +1,53 @@
-const express = require('express');
-const cors = require('cors');
-const multer = require('multer');
-const jwt = require('jsonwebtoken'); // if you're using auth
-const path = require('path');
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+
+import authRoutes from "./routes/auth.js";
+import adminRoutes from "./routes/admin.js";
+import uploadRoutes from "./routes/upload.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Serve uploaded files statically
+app.use('/uploads', express.static('uploads'));
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Dummy JWT check middleware (you can replace this with real auth)
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+// MongoDB URI (make sure to set your own secure URI in .env)
+const MONGODB_URI = process.env.MONGODB_URI || "your_default_mongodb_uri_here";
 
-  if (!token) return res.status(401).json({ message: 'No token provided' });
-
-  jwt.verify(token, 'your_jwt_secret', (err, user) => {
-    if (err) return res.status(403).json({ message: 'Invalid token' });
-    req.user = user;
-    next();
+// Auto-retry MongoDB connection
+const connectWithRetry = () => {
+  mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ Connected to MongoDB Atlas"))
+  .catch((err) => {
+    console.error("❌ MongoDB connection error. Retrying in 5s...", err);
+    setTimeout(connectWithRetry, 5000); // Retry every 5 seconds
   });
 };
 
-// Multer config
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+connectWithRetry();
 
 // Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/upload', uploadRoutes);
 
-// ✅ Wake-up route
+// Ping route for wake-up/testing
 app.get('/api/ping', (req, res) => {
   res.json({ message: 'Server is awake!' });
 });
 
-// ✅ Upload route
-app.post('/api/upload', authenticateToken, upload.single('file'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'No file uploaded' });
-  }
-
-  // You can parse the Excel file here using e.g., xlsx or exceljs
-  // For now, just return success with a dummy response
-
-  res.json({
-    message: 'File uploaded successfully',
-    data: {
-      fileName: req.file.originalname,
-      size: req.file.size,
-      mimetype: req.file.mimetype
-    }
-  });
-});
-
 // Start server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
