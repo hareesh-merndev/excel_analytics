@@ -1,68 +1,61 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
-
-import authRoutes from "./routes/auth.js";
-import adminRoutes from "./routes/admin.js";
-import uploadRoutes from "./routes/upload.js";
+const express = require('express');
+const cors = require('cors');
+const multer = require('multer');
+const jwt = require('jsonwebtoken'); // if you're using auth
+const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Enable serving static files from uploads folder
-app.use('/uploads', express.static('uploads'));
-
-// Middlewares
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// MongoDB URI (secure via .env in production)
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://hareeshragavan404:Hareesh948630@cluster0.yf5kjwd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// Dummy JWT check middleware (you can replace this with real auth)
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-// Auto-retry MongoDB connection
-const connectWithRetry = () => {
-  mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("✅ Connected to MongoDB Atlas"))
-  .catch((err) => {
-    console.error("❌ MongoDB connection error. Retrying in 5s...", err);
-    setTimeout(connectWithRetry, 5000); // Retry every 5 seconds
+  if (!token) return res.status(401).json({ message: 'No token provided' });
+
+  jwt.verify(token, 'your_jwt_secret', (err, user) => {
+    if (err) return res.status(403).json({ message: 'Invalid token' });
+    req.user = user;
+    next();
   });
 };
 
-connectWithRetry();
+// Multer config
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/upload', uploadRoutes);
+// Routes
 
-// ✅ Health check route for Render/Netlify
+// ✅ Wake-up route
 app.get('/api/ping', (req, res) => {
   res.json({ message: 'Server is awake!' });
 });
 
-// ✅ Fallback for non-API requests (for SPA support)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// ✅ Upload route
+app.post('/api/upload', authenticateToken, upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  // You can parse the Excel file here using e.g., xlsx or exceljs
+  // For now, just return success with a dummy response
 
-  // FIXED: Named wildcard route for Express 5 / path-to-regexp compatibility
-  app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.json({
+    message: 'File uploaded successfully',
+    data: {
+      fileName: req.file.originalname,
+      size: req.file.size,
+      mimetype: req.file.mimetype
+    }
   });
-}
+});
 
-// Start the server
-const PORT = process.env.PORT || 5000;
+// Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
