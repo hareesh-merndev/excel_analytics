@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB URI (make sure to set your own secure URI in .env)
-const MONGODB_URI = process.env.MONGODB_URI || "your_default_mongodb_uri_here";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://hareeshragavan404:Hareesh948630@cluster0.yf5kjwd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Auto-retry MongoDB connection
 const connectWithRetry = () => {
