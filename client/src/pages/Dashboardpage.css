@@ -1,0 +1,215 @@
+/* Root Styling */
+.dashboard-page {
+  padding: 24px 32px;
+  min-height: 100vh;
+  background: #0a1a2f;
+  color: #00fff7;
+}
+
+/* Universal Card Style */
+.dashboard-card {
+  background: rgba(24, 28, 36, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 0 24px #00bfff44, 0 0 4px #00bfff inset;
+  padding: 28px;
+  margin-bottom: 24px;
+  border: 1.5px solid #00bfff;
+}
+
+/* Headers */
+.dashboard-card h2,
+.dashboard-card h3 {
+  color: #00fff7;
+  text-shadow: 0 0 8px #00fff7;
+  margin-bottom: 16px;
+}
+
+/* Neon Buttons */
+.dashboard-btn {
+  background: linear-gradient(90deg, #00fff7, #00bfff);
+  color: #08121c;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00bfff;
+  transition: 0.3s;
+}
+.dashboard-btn:hover {
+  background: linear-gradient(90deg, #00bfff, #00fff7);
+  color: #ffffff;
+  box-shadow: 0 0 16px #00bfff, 0 0 6px #00fff7 inset;
+  transform: scale(1.03);
+}
+
+/* Form Inputs & Selects */
+.dashboard-select,
+input[type="text"] {
+  width: 100%;
+  background: #1e2a3a;
+  border: 1.5px solid #00bfff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #00fff7;
+  font-size: 1rem;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+/* Notes and Metadata */
+.dashboard-note {
+  font-size: 0.9rem;
+  color: #00fff7aa;
+}
+.dashboard-date {
+  font-size: 0.85rem;
+  color: #00bfff;
+  margin-left: 8px;
+}
+
+/* List Styling */
+.dashboard-page ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.dashboard-page li {
+  padding: 6px 0;
+  color: #b5e9ff;
+}
+
+/* Chart Box */
+.chart {
+  margin-top: 16px;
+  background: #141d26;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #00fff777;
+}
+
+/* Input Grouping */
+.input-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.input-row select,
+.input-row input {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* Dashboard Layout Structure */
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  background: #0d1117;
+  color: #00fff7;
+}
+.sidebar {
+  width: 250px;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 12px #00bfff44;
+  padding: 20px;
+}
+.main-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* Sidebar Navigation */
+.sidebar-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #00fff7;
+  text-shadow: 0 0 8px #00fff7aa;
+}
+.nav-link,
+.logout-link {
+  color: #00fff7;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+.nav-link.active,
+.nav-link:hover,
+.logout-link:hover {
+  color: #00bfff;
+  transform: translateX(4px);
+}
+
+/* Shortcut Cards & Tiles */
+.shortcut-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.shortcut-box {
+  flex: 1;
+  background: #121e2c;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  color: #00fff7;
+  box-shadow: 0 0 10px #00bfff55;
+}
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+.shortcut-tile {
+  background: #1a273a;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 8px #00fff7aa;
+  transition: transform 0.2s ease;
+}
+.shortcut-tile:hover {
+  background: #00bfff33;
+  transform: scale(1.05);
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 12px;
+  background: #1e2a3a;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.progress {
+  height: 100%;
+  background: #00bfff;
+  border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 12px;
+  }
+  .main-content {
+    padding: 16px;
+  }
+}

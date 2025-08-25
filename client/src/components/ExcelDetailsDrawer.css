@@ -1,0 +1,33 @@
+.drawer-neon {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background-color: #111;
+  color: #0f0;
+  padding: 1rem;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
+  font-family: 'Courier New', monospace;
+  z-index: 9999;
+  max-height: 300px;
+  max-width: 90%;
+  overflow-y: auto;
+  display: inline-block;
+  cursor: move;
+}
+
+.drawer-heading {
+  margin: 0 0 0.5rem 0;
+  font-weight: bold;
+  color: #0ff;
+  text-align: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.drawer-pre {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}

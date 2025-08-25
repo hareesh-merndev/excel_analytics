@@ -1,0 +1,316 @@
+/* Combined Neon Dashboard + Login/Register Styles */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a1a2f, #0ff 80%);
+}
+
+/* Neon Card */
+.dashboard-card, .auth-card {
+  background: #181c24;
+  border-radius: 18px;
+  box-shadow: 0 0 24px #00fff7, 0 0 2px #00fff7 inset;
+  padding: 32px 28px;
+  margin: 18px;
+  transition: box-shadow 0.3s, transform 0.2s;
+  border: 1.5px solid #00fff7;
+}
+.dashboard-card:hover, .auth-card:hover {
+  box-shadow: 0 0 40px #00fff7, 0 0 8px #00fff7 inset;
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Neon Buttons */
+.dashboard-btn {
+  background: linear-gradient(90deg, #00fff7 0%, #00bfff 100%);
+  color: #181c24;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 0 8px #00fff7;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.dashboard-btn:hover {
+  background: linear-gradient(90deg, #00bfff 0%, #00fff7 100%);
+  color: #fff;
+  box-shadow: 0 0 20px #00fff7, 0 0 8px #00fff7 inset;
+  transform: scale(1.05);
+}
+
+/* Neon Inputs */
+.dashboard-select, .auth-input, .inputBox input {
+  background: #23283a;
+  color: #00fff7;
+  border: 1.5px solid #00fff7;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 1.08rem;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+.dashboard-select:focus, .auth-input:focus, .inputBox input:focus {
+  border: 1.5px solid #00bfff;
+  box-shadow: 0 0 8px #00fff7;
+}
+
+/* Neon Table */
+.dashboard-card table {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10px;
+  width: 100%;
+}
+.dashboard-card th, .dashboard-card td {
+  border: none;
+  color: #00fff7;
+  padding: 12px 10px;
+  text-align: left;
+}
+.dashboard-card th {
+  background: #181c24;
+  color: #00fff7;
+  font-weight: bold;
+}
+.dashboard-card tr {
+  background: #23283a;
+  transition: background 0.2s;
+}
+.dashboard-card tr:hover {
+  background: #00fff722;
+}
+.dashboard-card tr:nth-child(even) {
+  background: #1a1e2a;
+}
+
+/* Neon Headings */
+.dashboard-card h2, .dashboard-card h3, .auth-card h2, .signin .content h2 {
+  color: #00fff7;
+  text-shadow: 0 0 8px #00fff7;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+/* Neon Links */
+a, .dashboard-link {
+  color: #00fff7;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+a:hover, .dashboard-link:hover {
+  color: #00bfff;
+}
+
+/* Neon Background */
+.auth-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #181c24 60%, #00fff7 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 18px;
+  min-height: 100vh;
+  padding: 32px 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashboard-grid {
+    display: block !important;
+  }
+  .dashboard-card, .auth-card {
+    margin: 18px auto;
+    width: 95% !important;
+    max-width: 98vw !important;
+  }
+  .background-grid span {
+    width: calc(10vw - 2px);
+    height: calc(10vw - 2px);
+  }
+}
+@media (max-width: 600px) {
+  .background-grid span {
+    width: calc(20vw - 2px);
+    height: calc(20vw - 2px);
+  }
+}
+
+/* Misc */
+.dashboard-note {
+  color: #00fff7bb;
+  font-size: 0.95em;
+  margin-top: 8px;
+}
+.dashboard-date {
+  color: #00bfff;
+  font-size: 0.92em;
+  margin-left: 8px;
+}
+
+/* Auth Section with Background Grid */
+.auth-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #181c24 30%, #00fff7 100%);
+}
+
+.background-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  gap: 2px;
+}
+
+.background-grid span {
+  width: calc(6.25vw - 2px);
+  height: calc(6.25vw - 2px);
+  background: #181818;
+  transition: 1.5s;
+}
+
+.background-grid span:hover {
+  background: #00bfff; /* Neon Blue */
+  transition: 0s;
+}
+
+.background-grid::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#0a1a2f, #00bfff, #0a1a2f);
+  animation: animate 5s linear infinite;
+  z-index: -1;
+}
+
+@keyframes animate {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Signin Box Positioning */
+.signin {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
+  background: #222;
+  border-radius: 4px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.9);
+}
+
+.signin .content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+.signin .content .form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+.inputBox {
+  position: relative;
+  width: 100%;
+}
+
+.inputBox i {
+  position: absolute;
+  left: 0;
+  padding: 15px 10px;
+  font-style: normal;
+  color: #aaa;
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.inputBox input:focus ~ i,
+.inputBox input:valid ~ i {
+  transform: translateY(-7.5px);
+  font-size: 0.8em;
+  color: #fff;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95em;
+  color: #00fff7;
+}
+.full-screen {
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+/* Prevent screen from overflowing and set full height */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Ensure React root container fills screen */
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Extend dashboard page to full screen and keep responsive layout */
+.full-screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Disable scrollbar if needed */
+.no-scroll {
+  overflow: hidden;
+}
+

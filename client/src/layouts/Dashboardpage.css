@@ -1,0 +1,137 @@
+/* General Neon Theme Setup */
+body {
+  margin: 0;
+  background: #0a1a2f;
+  color: #00fff7;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Layout */
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  background: #0d1117;
+  color: #00fff7;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 250px;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 12px #00bfff44;
+  padding: 20px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background: #0a1a2f;
+}
+
+/* Sidebar Links */
+.nav-link,
+.logout-link {
+  color: #00fff7;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.nav-link span,
+.logout-link span {
+  margin-left: 10px;
+}
+
+.nav-link.active,
+.nav-link:hover,
+.logout-link:hover {
+  color: #00bfff;
+  transform: translateX(4px);
+}
+
+.sidebar-logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #00fff7;
+  text-shadow: 0 0 8px #00fff7aa;
+}
+
+/* Cards */
+.dashboard-card {
+  background: rgba(24, 28, 36, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 0 24px #00bfff44, 0 0 4px #00bfff inset;
+  padding: 28px;
+  margin-bottom: 24px;
+  border: 1.5px solid #00bfff;
+}
+
+.dashboard-card h3,
+.dashboard-card h2 {
+  color: #00fff7;
+  margin-bottom: 16px;
+  text-shadow: 0 0 8px #00fff7;
+}
+
+.dashboard-note {
+  font-size: 0.9rem;
+  color: #00fff7aa;
+}
+
+.dashboard-date {
+  font-size: 0.85rem;
+  color: #00bfff;
+  margin-left: 8px;
+}
+
+/* Buttons & Inputs */
+.dashboard-btn,
+.dashboard-select,
+input[type="text"] {
+  width: 100%;
+  background: #1e2a3a;
+  border: 1.5px solid #00bfff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #00fff7;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.dashboard-btn {
+  background: linear-gradient(90deg, #00fff7, #00bfff);
+  color: #08121c;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00bfff;
+  transition: all 0.3s;
+}
+
+.dashboard-btn:hover {
+  background: linear-gradient(90deg, #00bfff, #00fff7);
+  color: white;
+  box-shadow: 0 0 16px #00bfff, 0 0 6px #00fff7 inset;
+  transform: scale(1.03);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    padding: 16px;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}

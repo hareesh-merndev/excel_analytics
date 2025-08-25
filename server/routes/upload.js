@@ -1,57 +1,71 @@
+// routes/upload.js
 import express from 'express';
 import multer from 'multer';
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
 import XLSX from 'xlsx';
-import { verifyToken } from '../middleware/auth.js';
+import { verifyToken as authMiddleware } from '../middleware/auth.js';
+import Upload from '../models/Upload.js';
 
 const router = express.Router();
 
-// Ensure uploads directory exists
-const uploadDir = './uploads';
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
-
-// Set up multer storage with timestamped filenames
+// Storage config
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Folder must exist
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
   }
 });
+
 const upload = multer({ storage });
 
-// ✅ Route: POST /api/upload
-router.post('/', verifyToken, upload.single('file'), (req, res) => {
+// ✅ Upload Excel File and Parse
+router.post('/', authMiddleware, upload.single('file'), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: 'No file uploaded' });
-    }
+    // Save to DB
+    const newUpload = new Upload({
+      filename: req.file.filename,
+      path: req.file.path,
+      user: req.user.id
+    });
+    await newUpload.save();
 
-    // Read uploaded Excel file
+    // ✅ Parse Excel
     const workbook = XLSX.readFile(req.file.path);
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+    const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' }); // keep empty cells
 
     res.json({
-      message: 'File uploaded and processed successfully',
-      filename: req.file.filename,
-      path: req.file.path,
-      data: jsonData
+      message: 'File uploaded and parsed successfully',
+      data: rows
     });
   } catch (err) {
-    console.error('Excel processing failed:', err);
-    res.status(500).json({ message: 'Failed to process Excel file' });
+    console.error('❌ Upload parse error:', err);
+    res.status(500).json({ error: 'Failed to process Excel file' });
   }
 });
 
-// ✅ Optional: GET /api/upload/ping
-router.get('/ping', (req, res) => {
-  res.json({ message: 'Upload route is alive!' });
+// ✅ Get Upload History
+router.get('/history', authMiddleware, async (req, res) => {
+  const uploads = await Upload.find({ user: req.user.id }).sort({ uploadedAt: -1 });
+  res.json(uploads);
+});
+
+// ✅ Delete File by ID
+router.delete('/:id', authMiddleware, async (req, res) => {
+  const upload = await Upload.findOne({ _id: req.params.id, user: req.user.id });
+  if (!upload) return res.status(404).json({ error: 'File not found' });
+
+  fs.unlink(upload.path, err => {
+    if (err) console.error('File delete error:', err);
+  });
+
+  await upload.deleteOne();
+  res.json({ message: 'Deleted successfully' });
 });
 
 export default router;

@@ -30,7 +30,7 @@ const Dashboard = () => {
   // Fetch all users if admin
   useEffect(() => {
     if (role === 'admin') {
-      axios.get('http://localhost:5000/api/admin/users', {
+      axios.get('https://excel-analytics.onrender.com/api/admin/users', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       }).then(res => setUsers(res.data));
     }
